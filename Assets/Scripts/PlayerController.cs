@@ -14,13 +14,17 @@ public class PlayerController : MonoBehaviour
     private bool collectedSnow = false;
     private bool shouldJump = false;
 
+
     public ContactFilter2D contactFilter;
 
     private bool grounded => body.IsTouching(contactFilter);
 
+    Animator animator;
+
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update ()
@@ -35,6 +39,11 @@ public class PlayerController : MonoBehaviour
             OnPickupSnow();
             collectedSnow = false;
         }
+        animator.SetBool("Moving", movementDir != 0);
+        animator.SetFloat("vSpeed", body.velocity.y);
+        animator.SetBool("Jump", shouldJump);
+        animator.SetBool("Grounded", grounded);
+
     }
 
     private void FixedUpdate()
