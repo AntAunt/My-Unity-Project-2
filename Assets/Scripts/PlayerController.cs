@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,11 +10,12 @@ public class PlayerController : MonoBehaviour
     public float speed = 4.0f;
     private float movementDir = 0.0f;
     public float jumpForce = 6.0f;
+    private Vector3 sizeVector;
     
     public bool facingRight = true;
     private bool collectedSnow = false;
     private bool shouldJump = false;
-
+    private int snowballsCollected = 0;
 
     public ContactFilter2D contactFilter;
 
@@ -25,6 +27,7 @@ public class PlayerController : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        sizeVector = Vector3.one;
     }
 
     void Update ()
@@ -78,6 +81,22 @@ public class PlayerController : MonoBehaviour
     private void OnPickupSnow()
     {
         Debug.Log("snow gaming");
+        if (facingRight)
+        {
+            sizeVector.x = sizeVector.x + 0.1f;
+        }
+        else
+        {
+            sizeVector.x = sizeVector.x - 0.1f;
+        }
+        sizeVector.y = sizeVector.y + 0.1f;
+        sizeVector.z = sizeVector.z + 0.1f;
+        jumpForce *= 0.95f;
+        speed *= 0.95f;
+
+        snowballsCollected++;
+
+        transform.localScale = sizeVector;
     }
 
     private void Flip()
@@ -89,5 +108,14 @@ public class PlayerController : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+        sizeVector.x = -sizeVector.x;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Finish")) {
+            Debug.Log("level transition");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }
