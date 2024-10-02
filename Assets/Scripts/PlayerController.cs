@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private int snowballsCollected = 0;
 
     public ContactFilter2D contactFilter;
+    private GameManager.Accessory accessory;
+    public float timer;
 
     private bool grounded => body.IsTouching(contactFilter);
 
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sizeVector = Vector3.one;
+        accessory = GameManager.currentAccessory;
     }
 
     void Update ()
@@ -47,6 +50,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Jump", shouldJump);
         animator.SetBool("Grounded", grounded);
 
+        timer += Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -74,7 +78,16 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Snow")
         {
             collectedSnow = true;
+            GameManager.AddScore(10);
             Destroy(other.gameObject);
+        }
+
+        if (other.tag == "Accessory")
+        {
+            Debug.Log("stylin");
+            GameManager.AddScore(20);
+            GameManager.ChangeAccessory(GameManager.Accessory.None); // should store which one it is somehow?
+            // do something to change the animator
         }
     }
 
@@ -109,13 +122,5 @@ public class PlayerController : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
         sizeVector.x = -sizeVector.x;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Finish")) {
-            Debug.Log("level transition");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
     }
 }

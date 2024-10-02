@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 6801431689630509589}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -243,6 +243,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  timer: 0
 --- !u!95 &6801431689630509589
 Animator:
   serializedVersion: 5
