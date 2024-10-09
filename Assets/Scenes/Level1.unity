@@ -244,6 +244,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 454283188351308612, guid: df6f2fcae8beae548baeef8e64c62916, type: 3}
+      propertyPath: winLoseScript
+      value: 
+      objectReference: {fileID: 1961098659}
     - target: {fileID: 944316619102786795, guid: df6f2fcae8beae548baeef8e64c62916, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.47
@@ -1595,7 +1599,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4099238841245067874, guid: 8503bae21ac2222458e4d405b2b2a7ee, type: 3}
   m_PrefabInstance: {fileID: 4064036972070101557}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1897987957
+--- !u!114 &1961098659 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3804547278786360512, guid: 7f9f0f650acb0a04684be7b2369d8b4e, type: 3}
+  m_PrefabInstance: {fileID: 2088245936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e8c298fe32d4114fb3eebb0cd594ef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &2088245936
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1783,4 +1798,4 @@ SceneRoots:
   - {fileID: 95768554}
   - {fileID: 261450034}
   - {fileID: 1333670228951936111}
-  - {fileID: 1897987957}
+  - {fileID: 2088245936}

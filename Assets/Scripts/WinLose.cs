@@ -8,6 +8,7 @@ public class WinLose : MonoBehaviour
 {
     private bool gameEnded;
     public string nextLevelName;
+    public bool isFinalLevel;
     public int levelNumberSave;
 
     public GameObject winPanel;
@@ -31,9 +32,9 @@ public class WinLose : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        if (nextLevelName != "")
+        if (!isFinalLevel)
         {
-            SceneManager.LoadScene(nextLevelName);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
     }
