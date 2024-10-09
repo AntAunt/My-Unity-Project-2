@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private GameManager.Accessory accessory;
     public float timer;
 
-    private bool grounded => body.IsTouching(contactFilter);
+    private bool grounded;
 
     Animator animator;
 
@@ -31,11 +31,13 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         sizeVector = Vector3.one;
         accessory = GameManager.currentAccessory;
+        grounded = true;
     }
 
     void Update ()
     {
         movementDir = Input.GetAxisRaw("Horizontal");
+        grounded = IsGrounded();
 
         if (Input.GetButtonDown("Jump") && grounded)
             shouldJump = true;
@@ -51,6 +53,22 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Grounded", grounded);
 
         timer += Time.deltaTime;
+    }
+
+    private bool IsGrounded()
+    {
+        RaycastHit2D hit;
+        float raycastDistance = 1.0f;
+        //Raycast to to the floor objects only
+        int mask = 1 << LayerMask.NameToLayer("Ground");
+
+        //Raycast downwards
+        hit = Physics2D.Raycast(transform.position, Vector2.down, raycastDistance, mask);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void FixedUpdate()
@@ -79,6 +97,7 @@ public class PlayerController : MonoBehaviour
         {
             collectedSnow = true;
             GameManager.AddScore(10);
+            Debug.Log(GameManager.score);
             Destroy(other.gameObject);
         }
 

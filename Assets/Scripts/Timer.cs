@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Timer : MonoBehaviour
 {
@@ -26,14 +27,8 @@ public class Timer : MonoBehaviour
         if (timerActive)
         {  
             timeTaken += Time.deltaTime;
-            // Debug.Log(timeTaken);
-        }
-        else if (!addedScore)
-        {
             int score = parTime - (int)timeTaken;
-            GameManager.AddTimerScore(score);
-            Debug.Log("time score: " + score);
-            addedScore = true;
+            GameManager.SetTimerScore(score + 1);
         }
     }
     

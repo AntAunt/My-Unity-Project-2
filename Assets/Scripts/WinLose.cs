@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class WinLose : MonoBehaviour
 {
     private bool gameEnded;
-    public string nextLevelName;
     public bool isFinalLevel;
     public int levelNumberSave;
 
@@ -20,13 +19,15 @@ public class WinLose : MonoBehaviour
         {
             Debug.Log("You Win! Wahoo");
 
-            if(PlayerPrefs.GetInt("levelDone") < levelNumberSave)
+            if (PlayerPrefs.GetInt("levelDone") < levelNumberSave)
             {
                 PlayerPrefs.SetInt("levelDone", levelNumberSave);
             }
 
             winPanel.SetActive(true);
             gameEnded = true;
+            SaveScore();
+            Debug.Log("the high score for this level is: " + PlayerPrefs.GetInt(GameManager.levelNames[SceneManager.GetActiveScene().buildIndex]));
         }
     }
 
@@ -36,12 +37,10 @@ public class WinLose : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-
     }
 
     public void RestartLevel()
     {
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -52,12 +51,23 @@ public class WinLose : MonoBehaviour
     }
 
     public void LoseLevel()
-        {
-            if (!gameEnded)
+    {
+        if (!gameEnded)
         {
             Debug.Log("You Lose! Womp womp.");
             RestartLevel();
             gameEnded = true;  
         }
+    }
+
+    private void SaveScore()
+    {
+        if (GameManager.GetTotalScore() > PlayerPrefs.GetInt(GameManager.levelNames[SceneManager.GetActiveScene().buildIndex]))
+        {
+            PlayerPrefs.SetInt(GameManager.levelNames[SceneManager.GetActiveScene().buildIndex], GameManager.GetTotalScore());
         }
+        Debug.Log("time score: " + GameManager.timeScore);
+        Debug.Log("score score: " + GameManager.score);
+        GameManager.ResetScore();
+    }
 }
