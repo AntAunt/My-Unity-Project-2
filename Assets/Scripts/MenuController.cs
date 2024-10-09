@@ -15,6 +15,7 @@ public class MenuController : MonoBehaviour
     public void Start()
     {
         GameObject currentPanel = mainMenuPanel;
+        Debug.Log("currentPanel set");
     }
 
     public void SelectStartGame()
@@ -38,9 +39,9 @@ public class MenuController : MonoBehaviour
 
     public void SelectCredits()
     {
-        currentPanel.SetActive(false);
-        currentPanel = credits;
-        currentPanel.SetActive(true);
+        Debug.Log("credit");
+        mainMenuPanel.SetActive(false);
+        credits.SetActive(true);
     }
 
     public void SelectBack()
