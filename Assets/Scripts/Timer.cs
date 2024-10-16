@@ -10,14 +10,12 @@ public class Timer : MonoBehaviour
     
     private float timeTaken = 0.0f;
     private bool timerActive;
-    private bool addedScore;
 
     // Start is called before the first frame update
     void Start()
     {
         timeTaken = 0.0f;
         timerActive = true;
-        addedScore = false;
         goalController.EndReachedEvent += StopTimer;
     }
 

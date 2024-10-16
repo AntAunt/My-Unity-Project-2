@@ -7,15 +7,19 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D body;
 
-    public float speed = 4.0f;
+    public float defaultSpeed = 5.0f;
+    public float defaultJumpForce = 9.0f;
+    private float speed;
+    private float jumpForce;
+
     private float movementDir = 0.0f;
-    public float jumpForce = 6.0f;
+    private Vector3 defaultSize;
     private Vector3 sizeVector;
     
     public bool facingRight = true;
+    public int snowballsCollected = 0;
     private bool collectedSnow = false;
     private bool shouldJump = false;
-    private int snowballsCollected = 0;
 
     public ContactFilter2D contactFilter;
     private GameManager.Accessory accessory;
@@ -29,7 +33,10 @@ public class PlayerController : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        sizeVector = Vector3.one;
+        defaultSize = transform.localScale;
+        sizeVector = defaultSize;
+        speed = defaultSpeed;
+        jumpForce = defaultJumpForce;
         accessory = GameManager.currentAccessory;
         grounded = true;
     }
@@ -58,7 +65,7 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         RaycastHit2D hit;
-        float raycastDistance = 1.0f;
+        float raycastDistance = 0.5f * sizeVector.y;
         //Raycast to to the floor objects only
         int mask = 1 << LayerMask.NameToLayer("Ground");
 
@@ -112,23 +119,31 @@ public class PlayerController : MonoBehaviour
 
     private void OnPickupSnow()
     {
-        Debug.Log("snow gaming");
+        snowballsCollected++;
+        CalculateSize();
+        CalculateWeight();
+    }
+
+    private void CalculateSize()
+    {
+        float sizeScalar = defaultSize.x + (0.1f * snowballsCollected); // 10% increase per snowball
         if (facingRight)
         {
-            sizeVector.x = sizeVector.x + 0.1f;
+            sizeVector.x = sizeScalar;
         }
         else
         {
-            sizeVector.x = sizeVector.x - 0.1f;
+            sizeVector.x = -sizeScalar;
         }
-        sizeVector.y = sizeVector.y + 0.1f;
-        sizeVector.z = sizeVector.z + 0.1f;
-        jumpForce *= 0.95f;
-        speed *= 0.95f;
-
-        snowballsCollected++;
-
+        sizeVector.y = sizeScalar;
+        sizeVector.z = sizeScalar;
         transform.localScale = sizeVector;
+    }
+
+    private void CalculateWeight()
+    {
+        speed = defaultSpeed * (Mathf.Pow(0.95f, snowballsCollected));
+        jumpForce = defaultJumpForce * (Mathf.Pow(0.95f, snowballsCollected));
     }
 
     private void Flip()
