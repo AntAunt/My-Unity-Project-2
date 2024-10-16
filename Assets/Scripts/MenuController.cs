@@ -15,7 +15,7 @@ public class MenuController : MonoBehaviour
     public void Start()
     {
         GameObject currentPanel = mainMenuPanel;
-        Debug.Log("currentPanel set");
+        Debug.Log(currentPanel);
     }
 
     public void SelectStartGame()
@@ -26,29 +26,27 @@ public class MenuController : MonoBehaviour
 
     public void SelectSelectLevel()
     {
-        currentPanel.SetActive(false);
-        currentPanel = levelSelectPanel;
-        currentPanel.SetActive(true);
+        mainMenuPanel.SetActive(false);
+        levelSelectPanel.SetActive(true);
 
     }
 
     public void SelectSpecificLevel(int index)
     {
-        SceneManager.LoadScene(index);
+        SceneManager.LoadScene(index - 1);
     }
 
     public void SelectCredits()
     {
-        Debug.Log("credit");
         mainMenuPanel.SetActive(false);
         credits.SetActive(true);
     }
 
     public void SelectBack()
     {
-        currentPanel.SetActive(false);
-        currentPanel = mainMenuPanel;
-        currentPanel.SetActive(true);
+        levelSelectPanel.SetActive(false);
+        credits.SetActive(false);
+        mainMenuPanel.SetActive(true);
     }
 
     public void SelectLeave()
