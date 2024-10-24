@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,15 +17,19 @@ public class PlayerController : MonoBehaviour
     private float movementDir = 0.0f;
     private Vector3 defaultSize;
     private Vector3 sizeVector;
+
+    public bool endLevel = false;
     
     public bool facingRight = true;
     public int snowballsCollected = 0;
     private bool collectedSnow = false;
     private bool shouldJump = false;
     private bool nearFan = false;
+    private bool won = false;
 
     public ContactFilter2D contactFilter;
     private GameManager.Accessory accessory;
+    private PlayableDirector director;
     public float timer;
 
     private bool grounded;
@@ -39,34 +45,43 @@ public class PlayerController : MonoBehaviour
         speed = defaultSpeed;
         jumpForce = defaultJumpForce;
         accessory = GameManager.currentAccessory;
+        director = GetComponent<PlayableDirector>();
         grounded = true;
     }
 
     void Update ()
     {
-        movementDir = Input.GetAxisRaw("Horizontal");
-        grounded = IsGrounded();
-
-        if (Input.GetButtonDown("Jump") && grounded)
-            shouldJump = true;
-
-        if (collectedSnow)
+        if (!won)
         {
-            snowballsCollected++;
-            collectedSnow = false;
-        }
-        if (Input.GetButtonDown("Fire3") && nearFan)
-        {
-            snowballsCollected--;
-        }
-        animator.SetBool("Moving", movementDir != 0);
-        animator.SetFloat("vSpeed", body.velocity.y);
-        animator.SetBool("Jump", shouldJump);
-        animator.SetBool("Grounded", grounded);
+            movementDir = Input.GetAxisRaw("Horizontal");
+            grounded = IsGrounded();
 
-        timer += Time.deltaTime;
-        CalculateSize(); // maybe only do this if we know there has been a change in snowballsCollected?
-        CalculateWeight(); // maybe only do this if we know there has been a change in snowballsCollected?
+            if (Input.GetButtonDown("Jump") && grounded)
+                shouldJump = true;
+
+            if (collectedSnow)
+            {
+                snowballsCollected++;
+                collectedSnow = false;
+            }
+            if (Input.GetButtonDown("Fire3") && nearFan)
+            {
+                snowballsCollected--;
+            }
+            animator.SetBool("Moving", movementDir != 0);
+            animator.SetFloat("vSpeed", body.velocity.y);
+            animator.SetBool("Jump", shouldJump);
+            animator.SetBool("Grounded", grounded);
+
+            timer += Time.deltaTime;
+            CalculateSize(); // maybe only do this if we know there has been a change in snowballsCollected?
+            CalculateWeight(); // maybe only do this if we know there has been a change in snowballsCollected?
+        }
+
+        else if (endLevel)
+        {
+
+        }
     }
 
     private bool IsGrounded()
@@ -87,22 +102,25 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (shouldJump)
-            body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-
-        body.velocity = new Vector2(movementDir * speed, body.velocity.y);
-
-        if (movementDir > 0 && !facingRight)
+        if (!won)
         {
-            // ... flip the player.
-            Flip();
-        }
-        else if (movementDir < 0 && facingRight)
-        {
-            Flip();
-        }
+            if (shouldJump)
+                body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
-        shouldJump = false;
+            body.velocity = new Vector2(movementDir * speed, body.velocity.y);
+
+            if (movementDir > 0 && !facingRight)
+            {
+                // ... flip the player.
+                Flip();
+            }
+            else if (movementDir < 0 && facingRight)
+            {
+                Flip();
+            }
+
+            shouldJump = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -175,5 +193,21 @@ public class PlayerController : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
         sizeVector.x = -sizeVector.x;
+    }
+
+    public void Win(Vector2 goalPos)
+    {
+
+        won = true;
+
+        Debug.Log(goalPos);
+
+        Vector2 position = transform.position;
+        position.x = goalPos.x - 1;
+        position.y = goalPos.y;
+
+        transform.position = position;
+
+        director.Play();
     }
 }

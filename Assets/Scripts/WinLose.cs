@@ -11,6 +11,28 @@ public class WinLose : MonoBehaviour
     public int levelNumberSave;
 
     public GameObject winPanel;
+    private GameObject playerObject;
+    private PlayerController playerController;
+
+    public void Start()
+    {
+        playerObject = GameObject.FindWithTag("Player");
+        if (playerObject.GetComponent<PlayerController>() != null)
+        {
+            playerController = playerObject.GetComponent<PlayerController>();
+        }
+    }
+
+    public void Update()
+    {
+        if (playerController != null)
+        {
+            if (playerController.endLevel)
+            {
+                WinLevel();
+            }
+        }
+    }
 
 
     public void WinLevel()

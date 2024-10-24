@@ -7,14 +7,17 @@ using UnityEngine.SceneManagement;
 public class GoalController : MonoBehaviour
 {
     public event Action EndReachedEvent;
-    public WinLose winLoseScript; 
+    public WinLose winLoseScript;
+    private PlayerController playerController;
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Player"))
         {
             EndReachedEvent.Invoke();
             Debug.Log("cooler level transition");
-            winLoseScript.WinLevel();
+            playerController = collision.collider.gameObject.GetComponent<PlayerController>();
+            playerController.Win(transform.position);
         }
+    
     }
 }
