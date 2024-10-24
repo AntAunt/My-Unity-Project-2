@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public int snowballsCollected = 0;
     private bool collectedSnow = false;
     private bool shouldJump = false;
+    private bool nearFan = false;
 
     public ContactFilter2D contactFilter;
     private GameManager.Accessory accessory;
@@ -51,8 +52,12 @@ public class PlayerController : MonoBehaviour
 
         if (collectedSnow)
         {
-            OnPickupSnow();
+            snowballsCollected++;
             collectedSnow = false;
+        }
+        if (Input.GetButtonDown("Fire3") && nearFan)
+        {
+            snowballsCollected--;
         }
         animator.SetBool("Moving", movementDir != 0);
         animator.SetFloat("vSpeed", body.velocity.y);
@@ -60,6 +65,8 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Grounded", grounded);
 
         timer += Time.deltaTime;
+        CalculateSize(); // maybe only do this if we know there has been a change in snowballsCollected?
+        CalculateWeight(); // maybe only do this if we know there has been a change in snowballsCollected?
     }
 
     private bool IsGrounded()
@@ -115,13 +122,25 @@ public class PlayerController : MonoBehaviour
             GameManager.ChangeAccessory(GameManager.Accessory.None); // should store which one it is somehow?
             // do something to change the animator
         }
+        if (other.tag == "Fan")
+        {
+            Debug.Log("oh its a fan");
+            nearFan = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (nearFan)
+        {
+            Debug.Log("bye fan");
+            nearFan = false;
+        }
     }
 
     private void OnPickupSnow()
     {
         snowballsCollected++;
-        CalculateSize();
-        CalculateWeight();
     }
 
     private void CalculateSize()
