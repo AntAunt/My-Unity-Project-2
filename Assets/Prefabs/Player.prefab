@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 5779960219485314059}
   - component: {fileID: 8367034036654766450}
   - component: {fileID: 6801431689630509589}
+  - component: {fileID: 2386383865479434762}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -226,9 +227,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d4bfb4c6c60ad4d905087f9998c75d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  jumpForce: 9
+  defaultSpeed: 5
+  defaultJumpForce: 9
+  endLevel: 0
   facingRight: 1
+  snowballsCollected: 0
   contactFilter:
     useTriggers: 0
     useLayerMask: 0
@@ -265,3 +268,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!320 &2386383865479434762
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8401888827851890888}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: f16fef55b07e11346a2ccf2138df5a7d, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 0
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -8253567140027118327, guid: f16fef55b07e11346a2ccf2138df5a7d, type: 2}
+    value: {fileID: 6801431689630509589}
+  m_ExposedReferences:
+    m_References: []
