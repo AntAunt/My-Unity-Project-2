@@ -10,7 +10,7 @@ public class AccessoryCollectible : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Player"))
         {
-            GameManager.currentAccessory = accessory;
+            GameManager.ChangeAccessory(accessory);
             Destroy(gameObject);
         }
     }
