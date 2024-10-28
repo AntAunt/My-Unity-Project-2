@@ -76,13 +76,14 @@ public class PlayerController : MonoBehaviour
             timer += Time.deltaTime;
             CalculateSize(); // maybe only do this if we know there has been a change in snowballsCollected?
             CalculateWeight(); // maybe only do this if we know there has been a change in snowballsCollected?
-        }
 
-        if (GameManager.currentAccessory != accessory)
-        {
-            // change the animation in some way
-            Debug.Log("Accessory change!");
-            accessory = GameManager.currentAccessory;
+            if (GameManager.currentAccessory != accessory)
+            {
+                // change the animation in some way
+                Debug.Log("Accessory change!");
+                accessory = GameManager.currentAccessory;
+            }
+
         }
 
         else if (endLevel)
