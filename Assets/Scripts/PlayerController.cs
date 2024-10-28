@@ -86,9 +86,10 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        else if (endLevel)
+        else if (won)
         {
 
+            
         }
     }
 
@@ -217,5 +218,12 @@ public class PlayerController : MonoBehaviour
         transform.position = position;
 
         director.Play();
+
+        if (snowballsCollected != 0)
+        {
+            position.y = position.y + (snowballsCollected * 0.04f);
+            transform.position = position;
+            Debug.Log("go up!");
+        }
     }
 }
