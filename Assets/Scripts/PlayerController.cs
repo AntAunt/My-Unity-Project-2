@@ -78,6 +78,13 @@ public class PlayerController : MonoBehaviour
             CalculateWeight(); // maybe only do this if we know there has been a change in snowballsCollected?
         }
 
+        if (GameManager.currentAccessory != accessory)
+        {
+            // change the animation in some way
+            Debug.Log("Accessory change!");
+            accessory = GameManager.currentAccessory;
+        }
+
         else if (endLevel)
         {
 

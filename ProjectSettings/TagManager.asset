@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Button
   - Fan
+  - Accessory
   layers:
   - Default
   - TransparentFX
