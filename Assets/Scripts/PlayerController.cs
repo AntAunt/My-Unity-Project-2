@@ -21,11 +21,13 @@ public class PlayerController : MonoBehaviour
     public bool endLevel = false;
     
     public bool facingRight = true;
-    public int snowballsCollected = 0;
     private bool collectedSnow = false;
     private bool shouldJump = false;
     private bool nearFan = false;
     private bool won = false;
+
+    public int snowballsCollected = 0;
+    public int minFanSize = 0;
 
     public ContactFilter2D contactFilter;
     private GameManager.Accessory accessory;
@@ -64,9 +66,15 @@ public class PlayerController : MonoBehaviour
                 snowballsCollected++;
                 collectedSnow = false;
             }
-            if (Input.GetButtonDown("Fire3") && nearFan)
+            if (Input.GetButtonDown("Fire3") && nearFan && snowballsCollected > minFanSize)
             {
                 snowballsCollected--;
+            }
+            else
+            {
+                // play some feedback to let the player know they cant shrink anymore here
+                Debug.Log("fan not strong enough");
+                Debug.Log("minFanSize: " + minFanSize);
             }
             animator.SetBool("Moving", movementDir != 0);
             animator.SetFloat("vSpeed", body.velocity.y);
@@ -152,6 +160,10 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Fan")
         {
             Debug.Log("oh its a fan");
+            if (other.GetComponent<FanController>() != null)
+            {
+                minFanSize = other.GetComponent<FanController>().minSize;
+            }
             nearFan = true;
         }
     }
