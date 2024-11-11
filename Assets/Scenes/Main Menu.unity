@@ -302,6 +302,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5350528430472819027, guid: df37f2e8c8b5dad4dae4641f9e4ac41c, type: 3}
+      propertyPath: m_text
+      value: 'Oscar "Gatronix" Gilley
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565280462696281726, guid: df37f2e8c8b5dad4dae4641f9e4ac41c, type: 3}
+      propertyPath: m_text
+      value: 'Anne "Ant Aunt Gaming" Michejev
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 8331610889830804820, guid: df37f2e8c8b5dad4dae4641f9e4ac41c, type: 3}
       propertyPath: m_Name
       value: Main Menu

@@ -41,4 +41,9 @@ public class Timer : MonoBehaviour
     {
         timerActive = false; 
     }
+
+    public int getTime()
+    {
+        return (int) timeTaken;
+    }
 }
