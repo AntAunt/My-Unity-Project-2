@@ -66,15 +66,22 @@ public class PlayerController : MonoBehaviour
                 snowballsCollected++;
                 collectedSnow = false;
             }
-            if (Input.GetButtonDown("Fire3") && nearFan && snowballsCollected > minFanSize)
+            if (Input.GetButtonDown("Fire3"))
             {
-                snowballsCollected--;
-            }
-            else
-            {
-                // play some feedback to let the player know they cant shrink anymore here
-                Debug.Log("fan not strong enough");
-                Debug.Log("minFanSize: " + minFanSize);
+                if (nearFan)
+                {
+                    if (snowballsCollected > minFanSize)
+                    {
+                        snowballsCollected--;
+                    }
+                    else
+                    {
+                        // play some feedback to let the player know they cant shrink anymore here
+                        // maybe they shake a little?
+                        Debug.Log("fan not strong enough");
+                        Debug.Log("minFanSize: " + minFanSize);
+                    }
+                }
             }
             animator.SetBool("Moving", movementDir != 0);
             animator.SetFloat("vSpeed", body.velocity.y);

@@ -19,7 +19,7 @@ public class Timer : MonoBehaviour
         timeTaken = 0.0f;
         timerActive = true;
         goalObject = GameObject.FindWithTag("Finish");
-        if (goalObject.GetComponent<PlayerController>() != null)
+        if (goalObject.GetComponent<GoalController>() != null)
         {
             goalController = goalObject.GetComponent<GoalController>();
             goalController.EndReachedEvent += StopTimer;
