@@ -6,8 +6,10 @@ using UnityEngine.SocialPlatforms.Impl;
 public class Timer : MonoBehaviour
 {
     public int parTime = 0;
-    public GoalController goalController;
-    
+
+    private GameObject goalObject;
+    private GoalController goalController;
+
     private float timeTaken = 0.0f;
     private bool timerActive;
 
@@ -16,7 +18,12 @@ public class Timer : MonoBehaviour
     {
         timeTaken = 0.0f;
         timerActive = true;
-        goalController.EndReachedEvent += StopTimer;
+        goalObject = GameObject.FindWithTag("Finish");
+        if (goalObject.GetComponent<PlayerController>() != null)
+        {
+            goalController = goalObject.GetComponent<GoalController>();
+            goalController.EndReachedEvent += StopTimer;
+        }
     }
 
     // Update is called once per frame
