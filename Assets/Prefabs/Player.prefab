@@ -228,10 +228,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultSpeed: 5
-  defaultJumpForce: 9
+  defaultJumpForce: 12
   endLevel: 0
   facingRight: 1
   snowballsCollected: 0
+  minFanSize: 0
   contactFilter:
     useTriggers: 0
     useLayerMask: 0
