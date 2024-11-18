@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -28,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public int snowballsCollected = 0;
     public int minFanSize = 0;
+    public int fanUseLimit = 999;
 
     public ContactFilter2D contactFilter;
     private GameManager.Accessory accessory;
@@ -37,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private bool grounded;
 
     Animator animator;
+    public event Action FanUsedEvent;
 
     private void Start()
     {
@@ -70,9 +69,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (nearFan)
                 {
-                    if (snowballsCollected > minFanSize)
+                    if (snowballsCollected > minFanSize && fanUseLimit > 0)
                     {
                         snowballsCollected--;
+                        fanUseLimit--;
+                        FanUsedEvent.Invoke();
                     }
                     else
                     {
@@ -170,6 +171,11 @@ public class PlayerController : MonoBehaviour
             if (other.GetComponent<FanController>() != null)
             {
                 minFanSize = other.GetComponent<FanController>().minSize;
+
+                if (other.GetComponent<FanController>().limitedUse)
+                {
+                    fanUseLimit = other.GetComponent<FanController>().useLimit;
+                }
             }
             nearFan = true;
         }

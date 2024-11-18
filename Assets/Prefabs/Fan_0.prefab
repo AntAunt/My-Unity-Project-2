@@ -166,3 +166,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSize: 0
+  useLimit: 999
+  limitedUse: 0
