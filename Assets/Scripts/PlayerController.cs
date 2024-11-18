@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D body;
 
+    private SpriteRenderer spriteRenderer;
+
     public float defaultSpeed = 5.0f;
     public float defaultJumpForce = 9.0f;
     private float speed;
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 sizeVector;
 
     public bool endLevel = false;
+    public bool applyAccessory = false;
     
     public bool facingRight = true;
     private bool collectedSnow = false;
@@ -31,6 +34,9 @@ public class PlayerController : MonoBehaviour
     private GameManager.Accessory accessory;
     private PlayableDirector director;
     public float timer;
+
+    public Sprite[] victorySprites;
+
 
     private bool grounded;
 
@@ -48,6 +54,7 @@ public class PlayerController : MonoBehaviour
         accessory = GameManager.currentAccessory;
         director = GetComponent<PlayableDirector>();
         grounded = true;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update ()
@@ -102,10 +109,22 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        else if (won)
+        if (applyAccessory)
         {
+            switch (accessory)
+            {
+                case GameManager.Accessory.Carrot:
+                    spriteRenderer.sprite = victorySprites[0];
+                    break;
+                case GameManager.Accessory.Hat:
+                    spriteRenderer.sprite = victorySprites[1];
+                    break;
+                case GameManager.Accessory.Sunglasses:
+                    spriteRenderer.sprite = victorySprites[2];
+                    break;
+            }
 
-            
+            applyAccessory = false;
         }
     }
 
@@ -162,7 +181,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("stylin");
             GameManager.AddScore(20);
-            GameManager.ChangeAccessory(GameManager.Accessory.None); // should store which one it is somehow?
+            //GameManager.ChangeAccessory(GameManager.Accessory.None); // should store which one it is somehow?
             // do something to change the animator
         }
         if (other.tag == "Fan")
@@ -242,7 +261,9 @@ public class PlayerController : MonoBehaviour
 
         transform.position = position;
 
+
         director.Play();
+
 
         if (snowballsCollected != 0)
         {
