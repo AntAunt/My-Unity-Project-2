@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public int snowballsCollected = 0;
     public int minFanSize = 0;
     public int fanUseLimit = 999;
+    private Vector3 fanLocation = new Vector3(1.0f, 1.0f, 1.0f);
 
     public ContactFilter2D contactFilter;
     private GameManager.Accessory accessory;
@@ -41,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private bool grounded;
 
     Animator animator;
-    public event Action FanUsedEvent;
+    public event Action<Vector3> FanUsedEvent;
 
     private void Start()
     {
@@ -80,7 +81,7 @@ public class PlayerController : MonoBehaviour
                     {
                         snowballsCollected--;
                         fanUseLimit--;
-                        FanUsedEvent.Invoke();
+                        FanUsedEvent.Invoke(fanLocation);
                     }
                     else
                     {
@@ -194,6 +195,7 @@ public class PlayerController : MonoBehaviour
                 if (other.GetComponent<FanController>().limitedUse)
                 {
                     fanUseLimit = other.GetComponent<FanController>().useLimit;
+                    fanLocation = other.GetComponent<Transform>().position; // this is a key so we know which fan we are at
                 }
             }
             nearFan = true;

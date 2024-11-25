@@ -28,14 +28,19 @@ public class FanController : MonoBehaviour
         }
     }
 
-    public void OnUsedFan()
+    public void OnUsedFan(Vector3 assumedLocation)
     {
-        useLimit--;
-        if (useLimit == 0)
+        // passing the location around like a key so only the fan the player is at acts on the event.
+        // ... this is nonsense but it SHOULD be fine.
+        if (assumedLocation == GetComponent<Transform>().position)
         {
-            GetComponent<Animator>().enabled = false;
-            GetComponent<SpriteRenderer>().sprite = usedSprite;
+            useLimit--;
+            if (useLimit == 0)
+            {
+                GetComponent<Animator>().enabled = false;
+                GetComponent<SpriteRenderer>().sprite = usedSprite;
+            }
+            text.text = useLimit.ToString();
         }
-        text.text = useLimit.ToString();
     }
 }
