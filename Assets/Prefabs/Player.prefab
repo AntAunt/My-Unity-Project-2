@@ -142,7 +142,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -1726289357, guid: 241581bdfdb7dd342ba8d7edc73a453b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 51c1cc48256cb7440b80a64383a2d89e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -230,9 +230,11 @@ MonoBehaviour:
   defaultSpeed: 5
   defaultJumpForce: 12
   endLevel: 0
+  applyAccessory: 0
   facingRight: 1
   snowballsCollected: 0
   minFanSize: 0
+  fanUseLimit: 999
   contactFilter:
     useTriggers: 0
     useLayerMask: 0
@@ -248,10 +250,6 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   timer: 0
-  victorySprites:
-  - {fileID: 21300000, guid: 51c1cc48256cb7440b80a64383a2d89e, type: 3}
-  - {fileID: 21300000, guid: 4f82016805e7c6b45b6c6f03059327e8, type: 3}
-  - {fileID: 21300000, guid: 3a4cce7e0eee3704eaafd0864a275938, type: 3}
 --- !u!95 &6801431689630509589
 Animator:
   serializedVersion: 5
@@ -290,5 +288,11 @@ PlayableDirector:
   m_SceneBindings:
   - key: {fileID: -8253567140027118327, guid: f16fef55b07e11346a2ccf2138df5a7d, type: 2}
     value: {fileID: 6801431689630509589}
+  - key: {fileID: -7685845072200813762, guid: f16fef55b07e11346a2ccf2138df5a7d, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -4212817107238477387, guid: f16fef55b07e11346a2ccf2138df5a7d, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -1514808346071033652, guid: f16fef55b07e11346a2ccf2138df5a7d, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []

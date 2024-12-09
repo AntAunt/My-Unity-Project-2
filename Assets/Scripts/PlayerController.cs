@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class PlayerController : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
     private PlayableDirector director;
     public float timer;
 
-    public Sprite[] victorySprites;
+    private Vector2 victoryJumpArc = new Vector2(0.0f, 0.0f);
 
 
     private bool grounded;
@@ -95,7 +96,11 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Moving", movementDir != 0);
             animator.SetFloat("vSpeed", body.velocity.y);
             animator.SetBool("Jump", shouldJump);
-            animator.SetBool("Grounded", grounded);
+            animator.SetBool("Grounded", grounded); 
+            animator.SetBool("Won", false);
+            animator.SetBool("Carrot", false);
+            animator.SetBool("Hat", false);
+            animator.SetBool("Shades", false);
 
             timer += Time.deltaTime;
             CalculateSize(); // maybe only do this if we know there has been a change in snowballsCollected?
@@ -109,24 +114,7 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-
-        if (applyAccessory)
-        {
-            switch (accessory)
-            {
-                case GameManager.Accessory.Carrot:
-                    spriteRenderer.sprite = victorySprites[0];
-                    break;
-                case GameManager.Accessory.Hat:
-                    spriteRenderer.sprite = victorySprites[1];
-                    break;
-                case GameManager.Accessory.Sunglasses:
-                    spriteRenderer.sprite = victorySprites[2];
-                    break;
-            }
-
-            applyAccessory = false;
-        }
+        
     }
 
     private bool IsGrounded()
@@ -252,26 +240,57 @@ public class PlayerController : MonoBehaviour
 
     public void Win(Vector2 goalPos)
     {
+        if (!won) { 
+            won = true;
+            //animator.applyRootMotion = true;
 
-        won = true;
+            Debug.Log(goalPos);
 
-        Debug.Log(goalPos);
+            Vector2 position = transform.position;
+            position.x = goalPos.x - 1;
+            position.y = goalPos.y;
 
-        Vector2 position = transform.position;
-        position.x = goalPos.x - 1;
-        position.y = goalPos.y;
-
-        transform.position = position;
-
-
-        director.Play();
-
-
-        if (snowballsCollected != 0)
-        {
-            position.y = position.y + (snowballsCollected * 0.04f);
             transform.position = position;
-            Debug.Log("go up!");
+
+            animator.SetBool("Won", won);
+            animator.SetBool("Carrot", accessory == GameManager.Accessory.Carrot);
+            animator.SetBool("Hat", accessory == GameManager.Accessory.Hat);
+            animator.SetBool("Shades", accessory == GameManager.Accessory.Sunglasses);
+
+            PlayableAsset playable = director.playableAsset;
+
+            TimelineAsset asset = director.playableAsset as TimelineAsset;
+            foreach (var track in asset.GetOutputTracks())
+            {
+                track.muted = false;
+                if (track.name == "Win" && accessory != GameManager.Accessory.None)
+                {
+                    track.muted = true;
+                }
+                if (track.name == "Win with Hat" && accessory != GameManager.Accessory.Hat)
+                {
+                    track.muted = true;
+                }
+                if (track.name == "Win with Carrot" && accessory != GameManager.Accessory.Carrot)
+                {
+                    track.muted = true;
+                }
+                if (track.name == "Win with Shades" && accessory != GameManager.Accessory.Sunglasses)
+                {
+                    track.muted = true;
+                }
+            }
+
+            director.RebuildGraph();
+            director.Play();
+
+
+            if (snowballsCollected != 0)
+            {
+                position.y = position.y + (snowballsCollected * 0.04f);
+                transform.position = position;
+                Debug.Log("go up!");
+            }
         }
     }
 }
