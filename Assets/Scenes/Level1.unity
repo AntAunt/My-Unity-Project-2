@@ -885,6 +885,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Accessory
       objectReference: {fileID: 0}
+    - target: {fileID: 6806025886355707042, guid: 557e12e0c3f4ff541b97161c217cc95d, type: 3}
+      propertyPath: accessory
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

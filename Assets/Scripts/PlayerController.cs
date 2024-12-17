@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     public ContactFilter2D contactFilter;
     private GameManager.Accessory accessory;
     private PlayableDirector director;
+    private static float carrotCooeficent = 0.35f;
     public float timer;
 
     private Vector2 victoryJumpArc = new Vector2(0.0f, 0.0f);
@@ -290,6 +291,7 @@ public class PlayerController : MonoBehaviour
                 position.y = position.y + (snowballsCollected * 0.04f);
                 transform.position = position;
                 Debug.Log("go up!");
+                
             }
         }
     }
