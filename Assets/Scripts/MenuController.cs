@@ -33,7 +33,7 @@ public class MenuController : MonoBehaviour
 
     public void SelectSpecificLevel(int index)
     {
-        SceneManager.LoadScene(index - 1);
+        SceneManager.LoadScene(index);
     }
 
     public void SelectCredits()
