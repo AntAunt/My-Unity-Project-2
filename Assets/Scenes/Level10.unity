@@ -8516,6 +8516,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5533106961436164343, guid: 7f9f0f650acb0a04684be7b2369d8b4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadMainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 7515836280626892279, guid: 7f9f0f650acb0a04684be7b2369d8b4e, type: 3}
       propertyPath: m_Name
       value: UIController
