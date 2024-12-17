@@ -1,16 +1,36 @@
 using System;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 public class PlayerController : MonoBehaviour
 {
+    public float defaultSpeed = 5.0f;
+    public float defaultJumpForce = 9.0f;
+
+    public bool endLevel = false;
+    public bool applyAccessory = false;
+
+    public bool facingRight = true;
+
+    public int snowballsCollected = 0;
+    public int minFanSize = 0;
+    public int fanUseLimit = 999;
+
+    public Animator animator;
+    public event Action<Vector3> FanUsedEvent;
+
+    public ContactFilter2D contactFilter;
+    public float timer;
+
+    public AudioSource fanFailSfx;
+    public AudioSource jumpSfx;
+
     private Rigidbody2D body;
 
     private SpriteRenderer spriteRenderer;
 
-    public float defaultSpeed = 5.0f;
-    public float defaultJumpForce = 9.0f;
     private float speed;
     private float jumpForce;
 
@@ -18,33 +38,19 @@ public class PlayerController : MonoBehaviour
     private Vector3 defaultSize;
     private Vector3 sizeVector;
 
-    public bool endLevel = false;
-    public bool applyAccessory = false;
-    
-    public bool facingRight = true;
     private bool collectedSnow = false;
     private bool shouldJump = false;
     private bool nearFan = false;
     private bool won = false;
 
-    public int snowballsCollected = 0;
-    public int minFanSize = 0;
-    public int fanUseLimit = 999;
     private Vector3 fanLocation = new Vector3(1.0f, 1.0f, 1.0f);
 
-    public ContactFilter2D contactFilter;
     private GameManager.Accessory accessory;
     private PlayableDirector director;
-    private static float carrotCooeficent = 0.35f;
-    public float timer;
 
     private Vector2 victoryJumpArc = new Vector2(0.0f, 0.0f);
 
-
     private bool grounded;
-
-    Animator animator;
-    public event Action<Vector3> FanUsedEvent;
 
     private void Start()
     {
@@ -89,6 +95,7 @@ public class PlayerController : MonoBehaviour
                     {
                         // play some feedback to let the player know they cant shrink anymore here
                         // maybe they shake a little?
+                        fanFailSfx.Play();
                         Debug.Log("fan not strong enough");
                         Debug.Log("minFanSize: " + minFanSize);
                     }
@@ -139,7 +146,12 @@ public class PlayerController : MonoBehaviour
         if (!won)
         {
             if (shouldJump)
+            {
                 body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                Debug.Log(jumpSfx.pitch);
+                jumpSfx.pitch = 1.0f - (0.05f * snowballsCollected);
+                jumpSfx.Play();
+            }
 
             body.velocity = new Vector2(movementDir * speed, body.velocity.y);
 
