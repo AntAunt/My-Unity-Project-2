@@ -11210,6 +11210,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 454283188351308612, guid: df6f2fcae8beae548baeef8e64c62916, type: 3}
+      propertyPath: par
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 454283188351308612, guid: df6f2fcae8beae548baeef8e64c62916, type: 3}
       propertyPath: winLoseScript
       value: 
       objectReference: {fileID: 2095402469}
@@ -11227,7 +11231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 944316619102786795, guid: df6f2fcae8beae548baeef8e64c62916, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.85
+      value: 12.8
       objectReference: {fileID: 0}
     - target: {fileID: 944316619102786795, guid: df6f2fcae8beae548baeef8e64c62916, type: 3}
       propertyPath: m_LocalPosition.z
