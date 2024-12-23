@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -47,6 +48,8 @@ public class WinLose : MonoBehaviour
             }
 
             winPanel.SetActive(true);
+            TMP_Text scoreText = winPanel.transform.Find("Score").GetComponent<TMP_Text>();
+            scoreText.SetText("Score: " + GameManager.GetTotalScore());
             gameEnded = true;
             SaveScore();
             Debug.Log("the high score for this level is: " + PlayerPrefs.GetInt(GameManager.levelNames[SceneManager.GetActiveScene().buildIndex]));
